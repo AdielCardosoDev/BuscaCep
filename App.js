@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Keyboard, Alert } from 'react-native';
 import { AntDesign } from '@expo/vector-icons'; 
 import api from './services/api';
 
@@ -10,8 +10,14 @@ export default function App() {
   const [searcCep, setSearcCep] = useState('');
 
   const getCep = async () => {
-    const {data} = await api.get(`${searcCep}/json/`);
-    setInfoCep(data);
+    if(searcCep == "" || searcCep <= 7){
+      Alert.alert("Cep Invalido!")
+      Keyboard.dismiss();
+    } else{
+      const { data } = await api.get(`${searcCep}/json/`);
+      setInfoCep(data);
+      Keyboard.dismiss();
+    }
   }
 
   return (
